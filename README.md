@@ -90,20 +90,21 @@ SELECT set_integer_now_func('sqlth_1_data', 'unix_now');
 
 Add compress chunks policy
 
+~~SELECT add_compress_chunks_policy('sqlth_1_data', CAST ('604800000' AS INTEGER));~~
 ```plsql
-SELECT add_compress_chunks_policy('sqlth_1_data', CAST ('604800000' AS INTEGER));
+SELECT add_compression_policy('sqlth_1_data', compress_after => 604800000);
 ```
 
 ~~**IMPORTANT** If you are using the enterprise version of timescale, you can run the following command to automatically drop chunks older than the specified cutoff.~~
 Enterprise version is no longer required.
 
+~~SELECT add_drop_chunks_policy('sqlth_1_data', CAST ('2592000000' AS BIGINT)); # 30 days~~
 ```plsql
-SELECT add_drop_chunks_policy('sqlth_1_data', CAST ('2592000000' AS BIGINT)); # 30 days
+SELECT add_retention_policy('sqlth_1_data', drop_after => 2592000000); # 30 days
 ```
 
-Otherwise, you must manually run the following query on a schedule to re-create the same functionality.
+~~Otherwise, you must manually run the following query on a schedule to re-create the same functionality.~~
 
-```plsql
-SELECT drop_chunks(CAST ('2592000000' AS BIGINT),'sqlth_1_data'); #30 days
-```
+~~SELECT drop_chunks(CAST ('2592000000' AS BIGINT),'sqlth_1_data'); #30 days~~
+
 
